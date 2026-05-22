@@ -351,7 +351,7 @@ async function doRefresh() {
 
     label.innerHTML = '<span class="spinner"></span> Reading emails…';
     const emailTexts = [];
-    for (const msg of messages.slice(0, 10)) {
+    for (const msg of messages.slice(0, 20)) {
       const msgRes = await fetch(
         `https://gmail.googleapis.com/gmail/v1/users/me/messages/${msg.id}?format=full`,
         { headers: { Authorization: `Bearer ${accessToken}` } }
@@ -373,7 +373,7 @@ async function doRefresh() {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-5',
-        max_tokens: 2000,
+        max_tokens: 8000,
         messages: [{
           role: 'user',
           content: `Extract ALL job listings from these LinkedIn alert emails. Return ONLY a JSON array. Each object must have:
@@ -437,7 +437,7 @@ function extractEmailText(msgData) {
     }
   };
   extract(parts);
-  return text.slice(0, 8000);
+  return text.slice(0, 4000);
 }
 
 function filterType(el, val) {
