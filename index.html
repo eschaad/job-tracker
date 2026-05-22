@@ -622,11 +622,14 @@ async function doRefresh() {
   try {
     // 1. Search Gmail for LinkedIn alert emails
     const searchRes = await fetch(
-      `https://gmail.googleapis.com/gmail/v1/users/me/messages?q=from:eschaad@hotmail.com+subject:job&maxResults=50`,
+      `https://gmail.googleapis.com/gmail/v1/users/me/messages?q=from:eschaad@hotmail.com&maxResults=50`,
       { headers: { Authorization: `Bearer ${accessToken}` } }
     );
-    if (searchRes.status === 401) { signOut(); return; }
-    const searchData = await searchRes.json();
+    console.log('Gmail search status:', searchRes.status);
+const searchText = await searchRes.text();
+console.log('Gmail search response:', searchText);
+if (searchRes.status === 401) { signOut(); return; }
+const searchData = JSON.parse(searchText)
     const messages = searchData.messages || [];
 
     if (!messages.length) { toast('No LinkedIn alert emails found in your inbox.'); btn.disabled = false; label.innerHTML = '↻ Refresh alerts'; return; }
