@@ -7,46 +7,19 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f0f11;
-    --surface: #17171a;
-    --surface2: #1e1e22;
-    --border: #2a2a30;
-    --border2: #333339;
-    --text: #f0f0f2;
-    --text2: #9090a0;
-    --text3: #55555f;
-    --accent: #5b8dee;
-    --accent2: #3d6fd4;
-    --green: #3ecf8e;
-    --green-bg: #0d2a1e;
-    --amber: #f59e0b;
-    --amber-bg: #2a1f0a;
-    --red: #f87171;
-    --red-bg: #2a0f0f;
-    --mono: 'DM Mono', monospace;
-    --sans: 'DM Sans', sans-serif;
+    --bg: #0f0f11; --surface: #17171a; --surface2: #1e1e22;
+    --border: #2a2a30; --border2: #333339;
+    --text: #f0f0f2; --text2: #9090a0; --text3: #55555f;
+    --accent: #5b8dee; --accent2: #3d6fd4;
+    --green: #3ecf8e; --green-bg: #0d2a1e;
+    --amber: #f59e0b; --amber-bg: #2a1f0a;
+    --red: #f87171; --red-bg: #2a0f0f;
+    --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; }
 
-  body {
-    font-family: var(--sans);
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-  }
-
-  .topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 32px;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; border-bottom: 1px solid var(--border); background: var(--surface); position: sticky; top: 0; z-index: 100; }
   .topbar-left { display: flex; align-items: center; gap: 12px; }
   .logo { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: .08em; text-transform: uppercase; }
   .divider-v { width: 1px; height: 18px; background: var(--border2); }
@@ -78,7 +51,6 @@
   .field input::placeholder { color: var(--text3); }
 
   #app-screen { display: none; padding: 28px 32px; }
-
   .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
   .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; }
   .stat-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; font-family: var(--mono); margin-bottom: 6px; }
@@ -97,51 +69,41 @@
 
   .dismissed-bar { display: none; align-items: center; gap: 10px; font-size: 12px; color: var(--text3); margin-bottom: 12px; font-family: var(--mono); }
   .restore-link { color: var(--accent); cursor: pointer; text-decoration: underline; background: none; border: none; font-family: var(--mono); font-size: 12px; }
-
   .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
   .section-title { font-size: 13px; color: var(--text2); font-family: var(--mono); }
 
   .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  colgroup col:nth-child(1) { width: 30%; }
-  colgroup col:nth-child(2) { width: 17%; }
-  colgroup col:nth-child(3) { width: 16%; }
-  colgroup col:nth-child(4) { width: 10%; }
-  colgroup col:nth-child(5) { width: 9%; }
-  colgroup col:nth-child(6) { width: 10%; }
+  colgroup col:nth-child(1) { width: 30%; } colgroup col:nth-child(2) { width: 17%; }
+  colgroup col:nth-child(3) { width: 16%; } colgroup col:nth-child(4) { width: 10%; }
+  colgroup col:nth-child(5) { width: 9%; }  colgroup col:nth-child(6) { width: 10%; }
   colgroup col:nth-child(7) { width: 8%; }
   thead th { text-align: left; font-size: 10px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: .1em; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--surface); font-family: var(--mono); white-space: nowrap; }
   tbody tr { border-bottom: 1px solid var(--border); transition: background .1s; }
   tbody tr:last-child { border-bottom: none; }
   tbody tr:hover { background: var(--surface); }
   tbody td { padding: 13px 16px; vertical-align: middle; }
-
   .job-title { font-weight: 500; color: var(--text); line-height: 1.35; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 280px; }
   .job-company { font-size: 12px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .loc { font-size: 12px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
   .badge { display: inline-flex; align-items: center; font-size: 10px; padding: 3px 9px; border-radius: 20px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; font-family: var(--mono); white-space: nowrap; }
   .badge-remote { background: var(--green-bg); color: var(--green); border: 1px solid #1a4a35; }
   .badge-hybrid { background: var(--amber-bg); color: var(--amber); border: 1px solid #3a2a0a; }
   .badge-onsite { background: var(--red-bg); color: var(--red); border: 1px solid #3a1515; }
   .badge-unknown { background: var(--surface2); color: var(--text3); border: 1px solid var(--border); }
   .badge-easy { background: #1a2a3a; color: #60a5fa; border: 1px solid #1e3a5a; font-size: 9px; margin-left: 5px; }
-
   .alert-tag { font-size: 10px; padding: 3px 8px; border-radius: 4px; background: var(--surface2); color: var(--text3); font-family: var(--mono); white-space: nowrap; border: 1px solid var(--border); }
-
   .view-btn { font-size: 11px; padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border2); background: transparent; color: var(--accent); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-family: var(--sans); font-weight: 500; transition: all .15s; white-space: nowrap; }
   .view-btn:hover { background: var(--surface2); border-color: var(--accent); }
-
   .dismiss-btn { background: none; border: none; cursor: pointer; color: var(--text3); padding: 5px 8px; border-radius: 6px; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: all .15s; }
   .dismiss-btn:hover { background: var(--red-bg); color: var(--red); }
-
   .empty-state { text-align: center; padding: 60px 20px; color: var(--text3); }
   .empty-state .icon { font-size: 36px; margin-bottom: 12px; }
   .empty-state p { font-size: 14px; }
-
+  .progress-bar { height: 3px; background: var(--border); border-radius: 2px; margin-bottom: 16px; overflow: hidden; display: none; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width .3s; }
   .spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.2); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; display: inline-block; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
   #toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; padding: 12px 18px; font-size: 13px; color: var(--text); opacity: 0; transition: opacity .3s; z-index: 999; pointer-events: none; max-width: 320px; }
   #toast.show { opacity: 1; }
 </style>
@@ -196,6 +158,10 @@
     <div class="stat-card"><div class="stat-label">Dismissed</div><div class="stat-val" id="stat-dismissed">0</div></div>
   </div>
 
+  <div class="progress-bar" id="progress-bar">
+    <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+
   <div class="section-header">
     <span class="section-title" id="result-label">— listings</span>
   </div>
@@ -222,17 +188,7 @@
   <div class="table-wrap">
     <table>
       <colgroup><col><col><col><col><col><col><col></colgroup>
-      <thead>
-        <tr>
-          <th>Role</th>
-          <th>Company</th>
-          <th>Location</th>
-          <th>Work type</th>
-          <th>Alert</th>
-          <th>Apply</th>
-          <th>Close</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Role</th><th>Company</th><th>Location</th><th>Work type</th><th>Alert</th><th>Apply</th><th>Close</th></tr></thead>
       <tbody id="tbody"></tbody>
     </table>
   </div>
@@ -279,7 +235,6 @@ function showAuth() {
   document.getElementById('settings-btn').style.display = 'none';
   document.getElementById('signout-btn').style.display = 'none';
 }
-
 function showSetup() {
   document.getElementById('auth-screen').style.display = 'none';
   document.getElementById('setup-screen').style.display = 'block';
@@ -287,7 +242,6 @@ function showSetup() {
   const k = localStorage.getItem('anthropic_key');
   if (k) document.getElementById('anthropic-key').value = k;
 }
-
 function showApp() {
   document.getElementById('auth-screen').style.display = 'none';
   document.getElementById('setup-screen').style.display = 'none';
@@ -299,35 +253,118 @@ function showApp() {
   document.getElementById('last-refresh').textContent = lr ? `Last refreshed: ${lr}` : 'Not yet refreshed';
   render();
 }
-
-function cancelSetup() {
-  if (localStorage.getItem('anthropic_key')) showApp();
-  else showAuth();
-}
-
+function cancelSetup() { if (localStorage.getItem('anthropic_key')) showApp(); else showAuth(); }
 function saveSetup() {
   const key = document.getElementById('anthropic-key').value.trim();
   if (!key.startsWith('sk-ant-')) { toast('Please enter a valid Anthropic API key (starts with sk-ant-)'); return; }
   localStorage.setItem('anthropic_key', key);
   showApp();
 }
-
-function signOut() {
-  localStorage.removeItem('goog_token');
-  accessToken = null;
-  showAuth();
-}
-
+function signOut() { localStorage.removeItem('goog_token'); accessToken = null; showAuth(); }
 function startGoogleAuth() {
-  const url = `https://accounts.google.com/o/oauth2/v2/auth?` +
-    `client_id=${encodeURIComponent(GOOGLE_CLIENT_ID)}` +
-    `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
-    `&response_type=token` +
-    `&scope=${encodeURIComponent(GMAIL_SCOPES)}` +
-    `&prompt=consent`;
+  const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(GOOGLE_CLIENT_ID)}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=${encodeURIComponent(GMAIL_SCOPES)}&prompt=consent`;
   window.location.href = url;
 }
 
+// ── Extract clean text from a Gmail message ──────────────────────────────────
+function extractEmailText(msgData) {
+  // Try to get plain text first, then fall back to HTML
+  let plainText = '';
+  let htmlText = '';
+
+  function walkParts(parts) {
+    for (const part of (parts || [])) {
+      if (part.parts) walkParts(part.parts);
+      if (part.body && part.body.data) {
+        const decoded = atob(part.body.data.replace(/-/g, '+').replace(/_/g, '/'));
+        if (part.mimeType === 'text/plain') plainText += decoded + '\n';
+        if (part.mimeType === 'text/html') htmlText += decoded + '\n';
+      }
+    }
+  }
+
+  // Handle both multipart and single-part emails
+  if (msgData.payload.parts) {
+    walkParts(msgData.payload.parts);
+  } else if (msgData.payload.body && msgData.payload.body.data) {
+    const decoded = atob(msgData.payload.body.data.replace(/-/g, '+').replace(/_/g, '/'));
+    if (msgData.payload.mimeType === 'text/plain') plainText = decoded;
+    else htmlText = decoded;
+  }
+
+  // Prefer plain text; if not available, strip HTML tags carefully
+  if (plainText.trim().length > 100) {
+    return plainText.slice(0, 6000);
+  }
+
+  // Clean HTML: preserve link text and structure
+  const cleaned = htmlText
+    .replace(/<a[^>]+href="([^"]*)"[^>]*>([^<]*)<\/a>/gi, '$2 [URL:$1]')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/p>/gi, '\n')
+    .replace(/<\/div>/gi, '\n')
+    .replace(/<\/li>/gi, '\n')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s{3,}/g, '\n')
+    .trim();
+
+  return cleaned.slice(0, 6000);
+}
+
+// ── Parse a single email with AI ─────────────────────────────────────────────
+async function parseOneEmail(emailText, anthropicKey) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': anthropicKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-5',
+      max_tokens: 2000,
+      messages: [{
+        role: 'user',
+        content: `Extract every job listing from this single LinkedIn alert email. There may be anywhere from 1 to 10 jobs listed.
+
+For each job return a JSON object with:
+- id: LinkedIn job ID from the URL (digits only, e.g. "4417028366"). Extract from URLs like linkedin.com/jobs/view/XXXXXXXXXX
+- title: exact job title as written
+- company: company name
+- location: city and state/country
+- workType: "remote", "hybrid", "onsite", or "unknown"
+- salary: salary range if shown, else ""
+- url: full LinkedIn job URL
+- alert: infer from locations — if Oregon cities (Portland, Corvallis, etc.) use "Oregon"; if Utah cities (Salt Lake City, Lehi, Logan, etc.) use "Utah"; else "General"
+- easyApply: true if "Easy Apply" mentioned near this job, else false
+
+Rules:
+- Include ALL jobs listed, do not skip any
+- Exclude jobs with VP or Vice President in the title
+- Exclude jobs that say "No longer accepting applications"
+- If a URL contains a job ID, always extract it precisely
+
+Return ONLY a valid JSON array. No markdown, no explanation, no extra text.
+
+Email content:
+${emailText}`
+      }]
+    })
+  });
+  const data = await res.json();
+  const raw = (data.content || []).map(i => i.text || '').join('');
+  const clean = raw.replace(/```json|```/g, '').trim();
+  return JSON.parse(clean);
+}
+
+// ── Main refresh function ─────────────────────────────────────────────────────
 async function doRefresh() {
   const anthropicKey = localStorage.getItem('anthropic_key');
   if (!anthropicKey) { showSetup(); return; }
@@ -335,84 +372,54 @@ async function doRefresh() {
 
   const btn = document.getElementById('refresh-btn');
   const label = document.getElementById('refresh-label');
+  const progressBar = document.getElementById('progress-bar');
+  const progressFill = document.getElementById('progress-fill');
   btn.disabled = true;
-  label.innerHTML = '<span class="spinner"></span> Fetching emails…';
+  progressBar.style.display = 'block';
+  progressFill.style.width = '5%';
 
   try {
+    // 1. Fetch email list
+    label.innerHTML = '<span class="spinner"></span> Fetching emails…';
     const searchRes = await fetch(
       `https://gmail.googleapis.com/gmail/v1/users/me/messages?q=from:eschaad@hotmail.com&maxResults=50`,
       { headers: { Authorization: `Bearer ${accessToken}` } }
     );
     if (searchRes.status === 401) { signOut(); return; }
-    if (!searchRes.ok) { toast('Gmail error — try signing out and back in'); btn.disabled = false; label.innerHTML = '↻ Refresh alerts'; return; }
+    if (!searchRes.ok) { toast('Gmail error — try signing out and back in'); btn.disabled = false; label.innerHTML = '↻ Refresh alerts'; progressBar.style.display = 'none'; return; }
+
     const searchData = await searchRes.json();
     const messages = searchData.messages || [];
-    if (!messages.length) { toast('No LinkedIn alert emails found in your inbox.'); btn.disabled = false; label.innerHTML = '↻ Refresh alerts'; return; }
+    if (!messages.length) { toast('No LinkedIn alert emails found.'); btn.disabled = false; label.innerHTML = '↻ Refresh alerts'; progressBar.style.display = 'none'; return; }
 
+    // 2. Fetch full content of each email
     label.innerHTML = '<span class="spinner"></span> Reading emails…';
     const emailTexts = [];
-    for (const msg of messages.slice(0, 20)) {
+    for (let i = 0; i < messages.length; i++) {
       const msgRes = await fetch(
-        `https://gmail.googleapis.com/gmail/v1/users/me/messages/${msg.id}?format=full`,
+        `https://gmail.googleapis.com/gmail/v1/users/me/messages/${messages[i].id}?format=full`,
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
       const msgData = await msgRes.json();
       const text = extractEmailText(msgData);
-      if (text) emailTexts.push(text);
+      if (text && text.length > 50) emailTexts.push(text);
+      progressFill.style.width = `${5 + (i / messages.length) * 30}%`;
     }
 
-label.innerHTML = '<span class="spinner"></span> Parsing with AI…';
-
-    // Process emails in batches of 3 to ensure complete extraction
-    const batchSize = 3;
+    // 3. Parse each email individually with AI
     const parsed = [];
-    for (let i = 0; i < emailTexts.length; i += batchSize) {
-      const batch = emailTexts.slice(i, i + batchSize);
-      const combined = batch.join('\n\n---EMAIL BREAK---\n\n');
-      const aiRes = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': anthropicKey,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true'
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-5',
-          max_tokens: 4000,
-          messages: [{
-            role: 'user',
-            content: `Extract ALL job listings from these LinkedIn alert emails. Return ONLY a JSON array. Each object must have:
-- id: the LinkedIn job ID number from the URL (e.g. "4417028366")
-- title: job title
-- company: company name
-- location: city/state
-- workType: "remote", "hybrid", "onsite", or "unknown"
-- salary: salary range if mentioned, else ""
-- url: full LinkedIn job URL
-- alert: which alert this came from, infer from location keywords (e.g. "Oregon", "Utah") or use "General"
-- easyApply: true if "Easy Apply" is mentioned, else false
-
-Exclude any job with VP or Vice President in the title.
-Do NOT include jobs that say "No longer accepting applications".
-Return ONLY valid JSON array, no markdown, no explanation.
-
-Emails:
-${combined}`
-          }]
-        })
-      });
-      const aiData = await aiRes.json();
-      const raw = (aiData.content || []).map(i => i.text || '').join('');
-      const clean = raw.replace(/```json|```/g, '').trim();
+    for (let i = 0; i < emailTexts.length; i++) {
+      label.innerHTML = `<span class="spinner"></span> Parsing email ${i + 1} of ${emailTexts.length}…`;
+      progressFill.style.width = `${35 + (i / emailTexts.length) * 60}%`;
       try {
-        const batchJobs = JSON.parse(clean);
-        parsed.push(...batchJobs);
+        const jobs = await parseOneEmail(emailTexts[i], anthropicKey);
+        parsed.push(...jobs);
       } catch(e) {
-        console.error('Batch parse error:', e, clean);
+        // Skip emails that fail to parse
       }
     }
 
+    // 4. Deduplicate and save
     const existingIds = new Set(jobs.map(j => j.id));
     const newJobs = parsed.filter(j => j.id && !existingIds.has(j.id));
     jobs = [...newJobs, ...jobs];
@@ -421,54 +428,26 @@ ${combined}`
     const now = new Date().toLocaleString();
     localStorage.setItem('last_refresh', now);
     document.getElementById('last-refresh').textContent = `Last refreshed: ${now}`;
+    progressFill.style.width = '100%';
+    setTimeout(() => { progressBar.style.display = 'none'; progressFill.style.width = '0%'; }, 600);
     toast(`✓ Found ${newJobs.length} new listing${newJobs.length !== 1 ? 's' : ''} (${parsed.length - newJobs.length} duplicates skipped)`);
     render();
 
   } catch (err) {
     toast('Something went wrong — check your API keys in Settings');
+    progressBar.style.display = 'none';
   }
 
   btn.disabled = false;
   label.innerHTML = '↻ Refresh alerts';
 }
 
-function extractEmailText(msgData) {
-  const parts = msgData.payload?.parts || [msgData.payload];
-  let text = '';
-  const extract = (parts) => {
-    for (const part of parts || []) {
-      if (part.parts) extract(part.parts);
-      if (part.mimeType === 'text/plain' && part.body?.data) {
-        text += atob(part.body.data.replace(/-/g, '+').replace(/_/g, '/')) + '\n';
-      }
-      if (part.mimeType === 'text/html' && part.body?.data && !text) {
-        const html = atob(part.body.data.replace(/-/g, '+').replace(/_/g, '/'));
-        text += html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ') + '\n';
-      }
-    }
-  };
-  extract(parts);
-  return text.slice(0, 4000);
-}
-
 function filterType(el, val) {
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  activeFilter = val;
-  render();
+  el.classList.add('active'); activeFilter = val; render();
 }
-
-function restoreAll() {
-  dismissed.clear();
-  localStorage.setItem('job_tracker_dismissed', JSON.stringify([]));
-  render();
-}
-
-function dismissJob(id) {
-  dismissed.add(id);
-  localStorage.setItem('job_tracker_dismissed', JSON.stringify([...dismissed]));
-  render();
-}
+function restoreAll() { dismissed.clear(); localStorage.setItem('job_tracker_dismissed', JSON.stringify([])); render(); }
+function dismissJob(id) { dismissed.add(id); localStorage.setItem('job_tracker_dismissed', JSON.stringify([...dismissed])); render(); }
 
 function render() {
   const q = (document.getElementById('search')?.value || '').toLowerCase();
@@ -497,12 +476,8 @@ function render() {
   document.getElementById('result-label').textContent = `${filtered.length} listing${filtered.length !== 1 ? 's' : ''}`;
 
   const dbar = document.getElementById('dismissed-bar');
-  if (dismissed.size > 0) {
-    dbar.style.display = 'flex';
-    document.getElementById('dismissed-count').textContent = `${dismissed.size} job${dismissed.size !== 1 ? 's' : ''} dismissed`;
-  } else {
-    dbar.style.display = 'none';
-  }
+  if (dismissed.size > 0) { dbar.style.display = 'flex'; document.getElementById('dismissed-count').textContent = `${dismissed.size} job${dismissed.size !== 1 ? 's' : ''} dismissed`; }
+  else dbar.style.display = 'none';
 
   const typeBadge = t => {
     if (t === 'remote') return '<span class="badge badge-remote">Remote</span>';
@@ -530,13 +505,7 @@ function render() {
 }
 
 function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
-
-function toast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 3500);
-}
+function toast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 3500); }
 </script>
 </body>
 </html>
