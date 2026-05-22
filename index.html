@@ -361,22 +361,28 @@ async function doRefresh() {
       if (text) emailTexts.push(text);
     }
 
-    label.innerHTML = '<span class="spinner"></span> Parsing with AI…';
-    const combined = emailTexts.join('\n\n---EMAIL BREAK---\n\n');
-    const aiRes = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': anthropicKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 8000,
-        messages: [{
-          role: 'user',
-          content: `Extract ALL job listings from these LinkedIn alert emails. Return ONLY a JSON array. Each object must have:
+label.innerHTML = '<span class="spinner"></span> Parsing with AI…';
+
+    // Process emails in batches of 3 to ensure complete extraction
+    const batchSize = 3;
+    const parsed = [];
+    for (let i = 0; i < emailTexts.length; i += batchSize) {
+      const batch = emailTexts.slice(i, i + batchSize);
+      const combined = batch.join('\n\n---EMAIL BREAK---\n\n');
+      const aiRes = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': anthropicKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-5',
+          max_tokens: 4000,
+          messages: [{
+            role: 'user',
+            content: `Extract ALL job listings from these LinkedIn alert emails. Return ONLY a JSON array. Each object must have:
 - id: the LinkedIn job ID number from the URL (e.g. "4417028366")
 - title: job title
 - company: company name
@@ -393,14 +399,19 @@ Return ONLY valid JSON array, no markdown, no explanation.
 
 Emails:
 ${combined}`
-        }]
-      })
-    });
-
-    const aiData = await aiRes.json();
-    const raw = (aiData.content || []).map(i => i.text || '').join('');
-    const clean = raw.replace(/```json|```/g, '').trim();
-    const parsed = JSON.parse(clean);
+          }]
+        })
+      });
+      const aiData = await aiRes.json();
+      const raw = (aiData.content || []).map(i => i.text || '').join('');
+      const clean = raw.replace(/```json|```/g, '').trim();
+      try {
+        const batchJobs = JSON.parse(clean);
+        parsed.push(...batchJobs);
+      } catch(e) {
+        console.error('Batch parse error:', e, clean);
+      }
+    }
 
     const existingIds = new Set(jobs.map(j => j.id));
     const newJobs = parsed.filter(j => j.id && !existingIds.has(j.id));
