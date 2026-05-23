@@ -7,97 +7,88 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f0f11; --surface: #17171a; --surface2: #1e1e22;
-    --border: #2a2a30; --border2: #333339;
-    --text: #f0f0f2; --text2: #9090a0; --text3: #55555f;
-    --accent: #5b8dee; --accent2: #3d6fd4;
-    --green: #3ecf8e; --green-bg: #0d2a1e;
-    --amber: #f59e0b; --amber-bg: #2a1f0a;
-    --red: #f87171; --red-bg: #2a0f0f;
-    --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif;
+    --bg:#0f0f11;--surface:#17171a;--surface2:#1e1e22;
+    --border:#2a2a30;--border2:#333339;
+    --text:#f0f0f2;--text2:#9090a0;--text3:#55555f;
+    --accent:#5b8dee;--accent2:#3d6fd4;
+    --green:#3ecf8e;--green-bg:#0d2a1e;
+    --amber:#f59e0b;--amber-bg:#2a1f0a;
+    --red:#f87171;--red-bg:#2a0f0f;
+    --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; }
-  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; border-bottom: 1px solid var(--border); background: var(--surface); position: sticky; top: 0; z-index: 100; }
-  .topbar-left { display: flex; align-items: center; gap: 12px; }
-  .logo { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: .08em; text-transform: uppercase; }
-  .divider-v { width: 1px; height: 18px; background: var(--border2); }
-  .last-refresh { font-size: 12px; color: var(--text3); font-family: var(--mono); }
-  .topbar-right { display: flex; gap: 10px; align-items: center; }
-  .btn { font-family: var(--sans); font-size: 13px; font-weight: 500; padding: 7px 16px; border-radius: 6px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all .15s; }
-  .btn-primary { background: var(--accent); color: #fff; }
-  .btn-primary:hover { background: var(--accent2); }
-  .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
-  .btn-ghost { background: transparent; color: var(--text2); border: 1px solid var(--border2); }
-  .btn-ghost:hover { background: var(--surface2); color: var(--text); }
-  #auth-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: calc(100vh - 57px); padding: 2rem; }
-  .auth-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 48px; max-width: 460px; width: 100%; text-align: center; }
-  .auth-icon { width: 56px; height: 56px; background: linear-gradient(135deg, var(--accent), #7c3aed); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 26px; }
-  .auth-card h2 { font-size: 22px; font-weight: 600; margin-bottom: 10px; }
-  .auth-card p { font-size: 14px; color: var(--text2); line-height: 1.6; margin-bottom: 28px; }
-  .google-btn { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border2); background: var(--surface2); color: var(--text); font-family: var(--sans); font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all .15s; }
-  .google-btn:hover { background: var(--border); }
-  #setup-screen { display: none; max-width: 560px; margin: 0 auto; padding: 48px 24px; }
-  #setup-screen h2 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
-  #setup-screen p { font-size: 13px; color: var(--text2); margin-bottom: 28px; line-height: 1.6; }
-  .field { margin-bottom: 16px; }
-  .field label { display: block; font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .06em; font-family: var(--mono); }
-  .field input { width: 100%; background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 14px; font-size: 13px; font-family: var(--mono); color: var(--text); outline: none; transition: border-color .15s; }
-  .field input:focus { border-color: var(--accent); }
-  .field input::placeholder { color: var(--text3); }
-  #app-screen { display: none; padding: 28px 32px; }
-  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
-  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; }
-  .stat-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; font-family: var(--mono); margin-bottom: 6px; }
-  .stat-val { font-size: 28px; font-weight: 600; color: var(--text); font-family: var(--mono); }
-  .stat-val.accent { color: var(--accent); }
-  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
-  .filter-search { flex: 1; min-width: 200px; background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; padding: 8px 14px; font-size: 13px; color: var(--text); font-family: var(--sans); outline: none; transition: border-color .15s; }
-  .filter-search:focus { border-color: var(--accent); }
-  .filter-search::placeholder { color: var(--text3); }
-  .chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; border: 1px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; transition: all .15s; font-family: var(--sans); }
-  .chip:hover { border-color: var(--accent); color: var(--text); }
-  .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .chip sup { font-size: 10px; margin-left: 3px; opacity: .7; }
-  .filter-select { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--text2); font-family: var(--sans); outline: none; cursor: pointer; }
-  .dismissed-bar { display: none; align-items: center; gap: 10px; font-size: 12px; color: var(--text3); margin-bottom: 12px; font-family: var(--mono); }
-  .restore-link { color: var(--accent); cursor: pointer; text-decoration: underline; background: none; border: none; font-family: var(--mono); font-size: 12px; }
-  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-  .section-title { font-size: 13px; color: var(--text2); font-family: var(--mono); }
-  .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  colgroup col:nth-child(1){width:30%} colgroup col:nth-child(2){width:17%}
-  colgroup col:nth-child(3){width:16%} colgroup col:nth-child(4){width:10%}
-  colgroup col:nth-child(5){width:9%}  colgroup col:nth-child(6){width:10%}
-  colgroup col:nth-child(7){width:8%}
-  thead th { text-align: left; font-size: 10px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: .1em; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--surface); font-family: var(--mono); white-space: nowrap; }
-  tbody tr { border-bottom: 1px solid var(--border); transition: background .1s; }
-  tbody tr:last-child { border-bottom: none; }
-  tbody tr:hover { background: var(--surface); }
-  tbody td { padding: 13px 16px; vertical-align: middle; }
-  .job-title { font-weight: 500; color: var(--text); line-height: 1.35; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 280px; }
-  .job-company { font-size: 12px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .loc { font-size: 12px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .badge { display: inline-flex; align-items: center; font-size: 10px; padding: 3px 9px; border-radius: 20px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; font-family: var(--mono); white-space: nowrap; }
-  .badge-remote { background: var(--green-bg); color: var(--green); border: 1px solid #1a4a35; }
-  .badge-hybrid { background: var(--amber-bg); color: var(--amber); border: 1px solid #3a2a0a; }
-  .badge-onsite { background: var(--red-bg); color: var(--red); border: 1px solid #3a1515; }
-  .badge-unknown { background: var(--surface2); color: var(--text3); border: 1px solid var(--border); }
-  .badge-easy { background: #1a2a3a; color: #60a5fa; border: 1px solid #1e3a5a; font-size: 9px; margin-left: 5px; }
-  .alert-tag { font-size: 10px; padding: 3px 8px; border-radius: 4px; background: var(--surface2); color: var(--text3); font-family: var(--mono); white-space: nowrap; border: 1px solid var(--border); }
-  .view-btn { font-size: 11px; padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border2); background: transparent; color: var(--accent); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-family: var(--sans); font-weight: 500; transition: all .15s; white-space: nowrap; }
-  .view-btn:hover { background: var(--surface2); border-color: var(--accent); }
-  .dismiss-btn { background: none; border: none; cursor: pointer; color: var(--text3); padding: 5px 8px; border-radius: 6px; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: all .15s; }
-  .dismiss-btn:hover { background: var(--red-bg); color: var(--red); }
-  .empty-state { text-align: center; padding: 60px 20px; color: var(--text3); }
-  .empty-state .icon { font-size: 36px; margin-bottom: 12px; }
-  .empty-state p { font-size: 14px; }
-  .progress-bar { height: 3px; background: var(--border); border-radius: 2px; margin-bottom: 16px; overflow: hidden; display: none; }
-  .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width .3s; }
-  .spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.2); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; display: inline-block; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  #toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; padding: 12px 18px; font-size: 13px; color: var(--text); opacity: 0; transition: opacity .3s; z-index: 999; pointer-events: none; max-width: 320px; }
-  #toast.show { opacity: 1; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:100}
+  .topbar-left{display:flex;align-items:center;gap:12px}
+  .logo{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--accent);letter-spacing:.08em;text-transform:uppercase}
+  .divider-v{width:1px;height:18px;background:var(--border2)}
+  .last-refresh{font-size:12px;color:var(--text3);font-family:var(--mono)}
+  .topbar-right{display:flex;gap:10px;align-items:center}
+  .btn{font-family:var(--sans);font-size:13px;font-weight:500;padding:7px 16px;border-radius:6px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+  .btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:var(--accent2)}.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+  .btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border2)}.btn-ghost:hover{background:var(--surface2);color:var(--text)}
+  #auth-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 57px);padding:2rem}
+  .auth-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:48px;max-width:460px;width:100%;text-align:center}
+  .auth-icon{width:56px;height:56px;background:linear-gradient(135deg,var(--accent),#7c3aed);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:26px}
+  .auth-card h2{font-size:22px;font-weight:600;margin-bottom:10px}
+  .auth-card p{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:28px}
+  .google-btn{width:100%;padding:12px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-family:var(--sans);font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .15s}
+  .google-btn:hover{background:var(--border)}
+  #setup-screen{display:none;max-width:560px;margin:0 auto;padding:48px 24px}
+  #setup-screen h2{font-size:20px;font-weight:600;margin-bottom:8px}
+  #setup-screen p{font-size:13px;color:var(--text2);margin-bottom:28px;line-height:1.6}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:12px;font-weight:500;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;font-family:var(--mono)}
+  .field input{width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;font-size:13px;font-family:var(--mono);color:var(--text);outline:none;transition:border-color .15s}
+  .field input:focus{border-color:var(--accent)}.field input::placeholder{color:var(--text3)}
+  #app-screen{display:none;padding:28px 32px}
+  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+  .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+  .stat-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;font-family:var(--mono);margin-bottom:6px}
+  .stat-val{font-size:28px;font-weight:600;color:var(--text);font-family:var(--mono)}.stat-val.accent{color:var(--accent)}
+  .filter-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+  .filter-search{flex:1;min-width:200px;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:8px 14px;font-size:13px;color:var(--text);font-family:var(--sans);outline:none;transition:border-color .15s}
+  .filter-search:focus{border-color:var(--accent)}.filter-search::placeholder{color:var(--text3)}
+  .chip{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;font-family:var(--sans)}
+  .chip:hover{border-color:var(--accent);color:var(--text)}.chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
+  .chip sup{font-size:10px;margin-left:3px;opacity:.7}
+  .filter-select{background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:8px 12px;font-size:13px;color:var(--text2);font-family:var(--sans);outline:none;cursor:pointer}
+  .dismissed-bar{display:none;align-items:center;gap:10px;font-size:12px;color:var(--text3);margin-bottom:12px;font-family:var(--mono)}
+  .restore-link{color:var(--accent);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:var(--mono);font-size:12px}
+  .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .section-title{font-size:13px;color:var(--text2);font-family:var(--mono)}
+  .table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  colgroup col:nth-child(1){width:35%} colgroup col:nth-child(2){width:20%}
+  colgroup col:nth-child(3){width:18%} colgroup col:nth-child(4){width:12%}
+  colgroup col:nth-child(5){width:7%}  colgroup col:nth-child(6){width:8%}
+  thead th{text-align:left;font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface);font-family:var(--mono);white-space:nowrap}
+  tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
+  tbody tr:last-child{border-bottom:none}
+  tbody tr:hover{background:var(--surface)}
+  tbody td{padding:13px 16px;vertical-align:middle}
+  .job-title{font-weight:500;color:var(--text);line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:320px}
+  .job-company{font-size:12px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .loc{font-size:12px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .badge{display:inline-flex;align-items:center;font-size:10px;padding:3px 9px;border-radius:20px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-family:var(--mono);white-space:nowrap}
+  .badge-remote{background:var(--green-bg);color:var(--green);border:1px solid #1a4a35}
+  .badge-hybrid{background:var(--amber-bg);color:var(--amber);border:1px solid #3a2a0a}
+  .badge-onsite{background:var(--red-bg);color:var(--red);border:1px solid #3a1515}
+  .badge-unknown{background:var(--surface2);color:var(--text3);border:1px solid var(--border)}
+  .alert-tag{font-size:10px;padding:3px 8px;border-radius:4px;background:var(--surface2);color:var(--text3);font-family:var(--mono);white-space:nowrap;border:1px solid var(--border)}
+  .view-btn{font-size:11px;padding:5px 10px;border-radius:6px;border:1px solid var(--border2);background:transparent;color:var(--accent);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px;font-family:var(--sans);font-weight:500;transition:all .15s;white-space:nowrap}
+  .view-btn:hover{background:var(--surface2);border-color:var(--accent)}
+  .dismiss-btn{background:none;border:none;cursor:pointer;color:var(--text3);padding:5px 8px;border-radius:6px;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+  .dismiss-btn:hover{background:var(--red-bg);color:var(--red)}
+  .empty-state{text-align:center;padding:60px 20px;color:var(--text3)}
+  .empty-state .icon{font-size:36px;margin-bottom:12px}
+  .empty-state p{font-size:14px}
+  .progress-bar{height:3px;background:var(--border);border-radius:2px;margin-bottom:16px;overflow:hidden;display:none}
+  .progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s}
+  .spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  #toast{position:fixed;bottom:24px;right:24px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:12px 18px;font-size:13px;color:var(--text);opacity:0;transition:opacity .3s;z-index:999;pointer-events:none;max-width:320px}
+  #toast.show{opacity:1}
 </style>
 </head>
 <body>
@@ -110,9 +101,7 @@
   </div>
   <div class="topbar-right">
     <button class="btn btn-ghost" id="settings-btn" style="display:none" onclick="showSetup()">⚙ Settings</button>
-    <button class="btn btn-primary" id="refresh-btn" style="display:none" onclick="doRefresh()">
-      <span id="refresh-label">↻ Refresh alerts</span>
-    </button>
+    <button class="btn btn-primary" id="refresh-btn" style="display:none" onclick="doRefresh()"><span id="refresh-label">↻ Refresh alerts</span></button>
     <button class="btn btn-ghost" id="signout-btn" style="display:none" onclick="signOut()">Sign out</button>
   </div>
 </div>
@@ -121,7 +110,7 @@
   <div class="auth-card">
     <div class="auth-icon">⚡</div>
     <h2>LinkedIn Job Tracker</h2>
-    <p>Sign in with Google to automatically pull your LinkedIn job alert emails and consolidate them into a clean, filterable dashboard.</p>
+    <p>Sign in with Google to automatically pull your LinkedIn job alert emails into a clean, filterable dashboard.</p>
     <button class="google-btn" onclick="startGoogleAuth()">
       <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
       Continue with Google
@@ -130,8 +119,8 @@
 </div>
 
 <div id="setup-screen">
-  <h2>Configure API Keys</h2>
-  <p>Enter your Anthropic API key below. It is stored only in your browser and never sent anywhere except the Anthropic API.</p>
+  <h2>Configure API Key</h2>
+  <p>Enter your Anthropic API key. Stored only in your browser.</p>
   <div class="field">
     <label>Anthropic API Key</label>
     <input type="password" id="anthropic-key" placeholder="sk-ant-..." autocomplete="off">
@@ -170,8 +159,8 @@
   </div>
   <div class="table-wrap">
     <table>
-      <colgroup><col><col><col><col><col><col><col></colgroup>
-      <thead><tr><th>Role</th><th>Company</th><th>Location</th><th>Work type</th><th>Alert</th><th>Apply</th><th>Close</th></tr></thead>
+      <colgroup><col><col><col><col><col><col></colgroup>
+      <thead><tr><th>Role</th><th>Company</th><th>Location</th><th>Alert</th><th>Apply</th><th>Close</th></tr></thead>
       <tbody id="tbody"></tbody>
     </table>
   </div>
@@ -183,8 +172,6 @@ const GOOGLE_CLIENT_ID = '414041072281-u31s51ul72phorbhj1ppmhia2mcn198r.apps.goo
 const REDIRECT_URI = 'https://eschaad.github.io/job-tracker/';
 const GMAIL_SCOPES = 'https://www.googleapis.com/auth/gmail.readonly';
 const VP_FILTER = /\bvp\b|vice president/i;
-const OREGON = /portland|corvallis|eugene|salem|bend|medford|beaverton|hillsboro|tualatin|lake oswego|gresham|tigard|\bOR\b|oregon/i;
-const UTAH = /salt lake|provo|ogden|lehi|orem|logan|murray|west valley|sandy|draper|herriman|\bUT\b|utah/i;
 
 let jobs = [];
 let dismissed = new Set();
@@ -210,20 +197,20 @@ window.onload = async () => {
   else showAuth();
 };
 
-function showAuth() {
+function showAuth(){
   document.getElementById('auth-screen').style.display='flex';
   document.getElementById('setup-screen').style.display='none';
   document.getElementById('app-screen').style.display='none';
   ['refresh-btn','settings-btn','signout-btn'].forEach(id=>document.getElementById(id).style.display='none');
 }
-function showSetup() {
+function showSetup(){
   document.getElementById('auth-screen').style.display='none';
   document.getElementById('setup-screen').style.display='block';
   document.getElementById('app-screen').style.display='none';
   const k=localStorage.getItem('anthropic_key');
   if(k) document.getElementById('anthropic-key').value=k;
 }
-function showApp() {
+function showApp(){
   document.getElementById('auth-screen').style.display='none';
   document.getElementById('setup-screen').style.display='none';
   document.getElementById('app-screen').style.display='block';
@@ -243,192 +230,183 @@ function startGoogleAuth(){
   window.location.href=`https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(GOOGLE_CLIENT_ID)}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=${encodeURIComponent(GMAIL_SCOPES)}&prompt=consent`;
 }
 
-// ── Extract plain text from Gmail message ──────────────────────────────────
-function extractPlainText(msgData) {
-  let text = '';
-  function walk(parts) {
-    for (const p of (parts||[])) {
-      if (p.parts) walk(p.parts);
-      if (p.mimeType==='text/plain' && p.body && p.body.data)
-        text += atob(p.body.data.replace(/-/g,'+').replace(/_/g,'/')) + '\n';
+// ── Extract plain text only ───────────────────────────────────────────────
+function extractPlainText(msgData){
+  let text='';
+  function walk(parts){
+    for(const p of(parts||[])){
+      if(p.parts)walk(p.parts);
+      if(p.mimeType==='text/plain'&&p.body&&p.body.data)
+        text+=atob(p.body.data.replace(/-/g,'+').replace(/_/g,'/'))+'\n';
     }
   }
-  if (msgData.payload.parts) walk(msgData.payload.parts);
-  else if (msgData.payload.body && msgData.payload.body.data && msgData.payload.mimeType==='text/plain')
-    text = atob(msgData.payload.body.data.replace(/-/g,'+').replace(/_/g,'/'));
+  if(msgData.payload.parts)walk(msgData.payload.parts);
+  else if(msgData.payload.body&&msgData.payload.body.data&&msgData.payload.mimeType==='text/plain')
+    text=atob(msgData.payload.body.data.replace(/-/g,'+').replace(/_/g,'/'));
   return text;
 }
 
-// ── Parse LinkedIn alert plain text ────────────────────────────────────────
-// Format observed:
-//   [Company Name] <https://...jobs/view/JOBID/...>   <https://...jobs/view/JOBID/...>
-//   Job Title
-//   Company Name
-//   Location · Worktype · Easy Apply?
-//   $salary (optional)
-//   N applicants
+// ── Parse LinkedIn alert email plain text ─────────────────────────────────
+//
+// Real format observed from actual email:
+//
+// "14 new jobs in Oregon match your preferences."   ← alert label
+//
+// [Deckers Brands] <URL/jobs/view/4398607529/...>   ← company + job ID (line starts with [)
+//      <URL/jobs/view/4398607529/...>               ← duplicate URL (ignore)
+// Sr. Digital Product Owner <URL/jobs/view/4398607529/...>  ← title + URL on same line
+//
+// Deckers Brands · Oregon, United States (Remote)  ← company · location (worktype)
+//
+// [AT&T]                                            ← noise (alumni info)
+// 10 company alumni                                 ← noise
+//
+// [Lam Research] <URL/jobs/view/4416329403/...>     ← next job starts here
+// ...
+//
+// Key rules:
+// 1. Alert label: match "N new jobs in STATE"
+// 2. Each job block starts with a line matching /^\[.+\] <https.*\/jobs\/view\/(\d+)\//
+// 3. Job ID comes from that URL
+// 4. Company name is the text inside [brackets]
+// 5. Title is on the NEXT line that contains a job URL — extract text before <URL
+// 6. Location line matches pattern "Something · Something (WorkType)"
+
 function parseEmail(plainText) {
   const results = [];
+  const seenIds = new Set();
 
-  // Find all job view URLs and extract job IDs
-  // Pattern: /jobs/view/DIGITS/ (with tracking params after)
-  const jobIdPattern = /\/jobs\/view\/(\d{8,12})\//g;
-  const seen = new Set();
-  let m;
-
-  // Collect all unique job IDs and their positions
-  const jobMatches = [];
-  while ((m = jobIdPattern.exec(plainText)) !== null) {
-    if (!seen.has(m[1])) {
-      seen.add(m[1]);
-      jobMatches.push({ id: m[1], pos: m.index });
-    }
+  // Step 1: Determine alert label from "N new jobs in STATE match"
+  let alert = 'General';
+  const alertMatch = plainText.match(/(\d+)\s+new\s+jobs?\s+in\s+([^\n.]+)\s+match/i);
+  if (alertMatch) {
+    const region = alertMatch[2].trim();
+    if (/oregon/i.test(region)) alert = 'Oregon';
+    else if (/utah/i.test(region)) alert = 'Utah';
+    else if (/tennessee/i.test(region)) alert = 'Tennessee';
+    else if (/texas/i.test(region)) alert = 'Texas';
+    else if (/washington/i.test(region)) alert = 'Washington';
+    else if (/california/i.test(region)) alert = 'California';
+    else alert = region; // use whatever LinkedIn says
   }
 
-  if (jobMatches.length === 0) return results;
+  // Step 2: Split into lines
+  const lines = plainText.split(/\r?\n/);
 
-  // For each job ID, find the text block that follows its URL
-  for (let i = 0; i < jobMatches.length; i++) {
-    const { id, pos } = jobMatches[i];
-    const nextPos = i + 1 < jobMatches.length ? jobMatches[i+1].pos : plainText.length;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
 
-    // Get text between this job URL and the next
-    // We need to find the END of the current URL first
-    const urlEnd = plainText.indexOf('\n', pos);
-    const block = plainText.slice(urlEnd > 0 ? urlEnd : pos, nextPos);
+    // Step 3: Detect job block start — line begins with [Company] <URL containing /jobs/view/JOBID/>
+    // Pattern: starts with [ , has company name, then ] <URL>
+    const companyMatch = line.match(/^\[(.+?)\]\s+<https?:\/\/[^>]*\/jobs\/view\/(\d{8,12})\//);
+    if (!companyMatch) continue;
 
-    // Clean the block: remove Í spacers, non-printable chars, collapse whitespace
-    const lines = block
-      .replace(/Í/g, '')
-      .replace(/[^\x20-\x7E\n]/g, ' ')
-      .split('\n')
-      .map(l => l.trim())
-      .filter(l => l.length > 1 && !l.startsWith('http') && !l.startsWith('['));
+    const company = companyMatch[1].trim();
+    const jobId = companyMatch[2];
 
-    // Also extract company from [Company] bracket before the URL
-    const beforeUrl = plainText.slice(Math.max(0, pos - 300), pos);
-    const bracketMatch = beforeUrl.match(/\[([^\]]{2,60})\]\s*$/);
-    const companyFromBracket = bracketMatch ? bracketMatch[1].trim() : '';
+    // Skip duplicates
+    if (seenIds.has(jobId)) continue;
+    seenIds.add(jobId);
 
-    // Parse the lines after the URL
-    // Typical structure:
-    // Line 0: Job title
-    // Line 1: Company name (sometimes)
-    // Line 2: Location · worktype
-    // Line 3: salary or applicants
-    let title = '', company = '', location = '', workType = 'unknown', salary = '', easyApply = false;
+    // Step 4: Find title — scan next lines for one containing /jobs/view/JOBID/
+    // The title line looks like: "Job Title Here <https://...jobs/view/JOBID/...>"
+    let title = '';
+    let location = '';
+    let workType = 'unknown';
 
-    // Filter out noise lines
-    const infoLines = lines.filter(l =>
-      !l.match(/^\d+\s*(applicant|connection|mutual)/i) &&
-      !l.match(/^(view|see|apply|save|share|promoted|actively|actively recruiting)/i) &&
-      !l.match(/^your job alert/i) &&
-      !l.match(/^results from/i) &&
-      !l.match(/^\d+ new jobs/i) &&
-      !l.match(/^view jobs in/i) &&
-      l.length > 2 && l.length < 150
-    );
+    for (let j = i + 1; j < Math.min(i + 10, lines.length); j++) {
+      const l = lines[j].trim();
+      if (!l) continue;
 
-    if (infoLines.length >= 1) title = infoLines[0];
-
-    // Find location line — contains city/state or "Remote"
-    for (const line of infoLines.slice(1)) {
-      if (line.match(/,\s*[A-Z]{2}\b/) || line.match(/\bremote\b/i) || line.match(/\bhybrid\b/i) || OREGON.test(line) || UTAH.test(line)) {
-        location = line.split('·')[0].trim();
-        // Extract work type from same line
-        if (/\bremote\b/i.test(line)) workType = 'remote';
-        else if (/\bhybrid\b/i.test(line)) workType = 'hybrid';
-        else if (/\bon.?site\b/i.test(line)) workType = 'onsite';
-        break;
+      // Title line: contains the same job ID URL and has text before it
+      if (!title && l.includes(`/jobs/view/${jobId}/`)) {
+        // Extract text before the <URL>
+        const t = l.replace(/<https?:\/\/[^>]+>/g, '').trim();
+        if (t.length > 2 && t.length < 200 && !t.startsWith('[')) {
+          title = t;
+        }
+        continue;
       }
+
+      // Location line: contains " · " separator (Company · Location pattern)
+      if (!location && l.includes(' · ') && title) {
+        // Extract everything after first · 
+        const parts = l.split(' · ');
+        if (parts.length >= 2) {
+          const locPart = parts.slice(1).join(' · ').trim();
+          // Extract worktype from (Remote) / (Hybrid) / (On-site)
+          const wtMatch = locPart.match(/\(([^)]+)\)\s*$/);
+          if (wtMatch) {
+            const wt = wtMatch[1].toLowerCase();
+            if (wt.includes('remote')) workType = 'remote';
+            else if (wt.includes('hybrid')) workType = 'hybrid';
+            else if (wt.includes('on-site') || wt.includes('onsite')) workType = 'onsite';
+            location = locPart.replace(/\s*\([^)]+\)\s*$/, '').trim();
+          } else {
+            location = locPart;
+          }
+          break; // found location, move on to next job
+        }
+      }
+
+      // Stop scanning if we hit the next job block
+      if (l.match(/^\[.+\]\s+<https?:\/\/[^>]*\/jobs\/view\/\d+\//)) break;
     }
 
-    // Company: use bracket match first, then second info line if it's not a location
-    if (companyFromBracket && companyFromBracket !== 'LinkedIn') {
-      company = companyFromBracket;
-    } else if (infoLines.length >= 2 && !OREGON.test(infoLines[1]) && !UTAH.test(infoLines[1]) && !infoLines[1].match(/,\s*[A-Z]{2}\b/)) {
-      company = infoLines[1];
-    }
+    // Only add if we got a title
+    if (!title) continue;
 
-    // Salary
-    const salaryMatch = block.match(/\$[\d,]+(?:K)?(?:\s*[-–]\s*\$[\d,]+(?:K)?)?(?:\s*\/\s*(?:year|yr|hour|hr|mo))?/i);
-    if (salaryMatch) salary = salaryMatch[0];
-
-    // Easy Apply
-    if (/easy apply/i.test(block)) easyApply = true;
-
-    // Alert from location
-    let alert = 'General';
-    const locCheck = location + ' ' + block.slice(0, 500);
-    if (OREGON.test(locCheck)) alert = 'Oregon';
-    else if (UTAH.test(locCheck)) alert = 'Utah';
-
-    // Skip VP titles, skip if no title
-    if (!title || title.length < 3) continue;
+    // Skip VP titles
     if (VP_FILTER.test(title)) continue;
 
-    results.push({
-      id,
-      title,
-      company: company || '—',
-      location: location || '—',
-      workType,
-      salary,
-      url: `https://www.linkedin.com/jobs/view/${id}/`,
-      alert,
-      easyApply
-    });
+    results.push({ id: jobId, title, company, location, workType, url: `https://www.linkedin.com/jobs/view/${jobId}/`, alert });
   }
 
   return results;
 }
 
-function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+// ── Main refresh ──────────────────────────────────────────────────────────
+async function doRefresh(){
+  const anthropicKey=localStorage.getItem('anthropic_key');
+  if(!anthropicKey){showSetup();return;}
+  if(!accessToken){showAuth();return;}
 
-// ── Main refresh ────────────────────────────────────────────────────────────
-async function doRefresh() {
-  const anthropicKey = localStorage.getItem('anthropic_key');
-  if (!anthropicKey){showSetup();return;}
-  if (!accessToken){showAuth();return;}
+  const btn=document.getElementById('refresh-btn');
+  const label=document.getElementById('refresh-label');
+  const pb=document.getElementById('progress-bar');
+  const pf=document.getElementById('progress-fill');
+  btn.disabled=true;pb.style.display='block';pf.style.width='5%';
 
-  const btn = document.getElementById('refresh-btn');
-  const label = document.getElementById('refresh-label');
-  const pb = document.getElementById('progress-bar');
-  const pf = document.getElementById('progress-fill');
-  btn.disabled=true; pb.style.display='block'; pf.style.width='5%';
-
-  try {
+  try{
     label.innerHTML='<span class="spinner"></span> Fetching emails…';
-    const sr = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages?q=from:eschaad@hotmail.com&maxResults=50`,
+    const sr=await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages?q=from:eschaad@hotmail.com&maxResults=50`,
       {headers:{Authorization:`Bearer ${accessToken}`}});
     if(sr.status===401){signOut();return;}
     if(!sr.ok){toast('Gmail error — try signing out and back in');btn.disabled=false;label.innerHTML='↻ Refresh alerts';pb.style.display='none';return;}
-    const sd = await sr.json();
-    const messages = sd.messages||[];
+    const sd=await sr.json();
+    const messages=sd.messages||[];
     if(!messages.length){toast('No alert emails found.');btn.disabled=false;label.innerHTML='↻ Refresh alerts';pb.style.display='none';return;}
 
-    // Fetch full email content
-    label.innerHTML='<span class="spinner"></span> Reading emails…';
-    const allParsed = [];
+    label.innerHTML='<span class="spinner"></span> Reading & parsing emails…';
+    const allParsed=[];
     for(let i=0;i<messages.length;i++){
-      const mr = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${messages[i].id}?format=full`,
+      const mr=await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${messages[i].id}?format=full`,
         {headers:{Authorization:`Bearer ${accessToken}`}});
-      const md = await mr.json();
-      const text = extractPlainText(md);
+      const md=await mr.json();
+      const text=extractPlainText(md);
       if(text.length>100){
-        const parsed = parseEmail(text);
+        const parsed=parseEmail(text);
         allParsed.push(...parsed);
       }
       pf.style.width=`${5+(i/messages.length)*90}%`;
     }
 
-    // Deduplicate by job ID
-    const existingIds = new Set(jobs.map(j=>j.id));
-    const newJobs = allParsed.filter(j=>j.id && !existingIds.has(j.id));
-    jobs = [...newJobs, ...jobs];
+    const existingIds=new Set(jobs.map(j=>j.id));
+    const newJobs=allParsed.filter(j=>!existingIds.has(j.id));
+    jobs=[...newJobs,...jobs];
     localStorage.setItem('job_tracker_jobs',JSON.stringify(jobs));
 
-    const now = new Date().toLocaleString();
+    const now=new Date().toLocaleString();
     localStorage.setItem('last_refresh',now);
     document.getElementById('last-refresh').textContent=`Last refreshed: ${now}`;
     pf.style.width='100%';
@@ -436,7 +414,7 @@ async function doRefresh() {
     toast(`✓ Found ${newJobs.length} new listing${newJobs.length!==1?'s':''} (${allParsed.length-newJobs.length} duplicates skipped)`);
     render();
 
-  } catch(err) {
+  }catch(err){
     console.error(err);
     toast('Something went wrong — check console for details');
     pb.style.display='none';
@@ -488,17 +466,16 @@ function render(){
 
   const tbody=document.getElementById('tbody');
   if(!filtered.length){
-    tbody.innerHTML=`<tr><td colspan="7"><div class="empty-state"><div class="icon">📋</div><p>${jobs.length?'No jobs match your filters':'Click "Refresh alerts" to pull your latest LinkedIn job emails'}</p></div></td></tr>`;
+    tbody.innerHTML=`<tr><td colspan="6"><div class="empty-state"><div class="icon">📋</div><p>${jobs.length?'No jobs match your filters':'Click "Refresh alerts" to pull your latest LinkedIn job emails'}</p></div></td></tr>`;
     return;
   }
   tbody.innerHTML=filtered.map(j=>`
     <tr>
-      <td><div class="job-title" title="${esc(j.title)}">${esc(j.title)}${j.easyApply?'<span class="badge badge-easy">Easy Apply</span>':''}</div></td>
+      <td><div class="job-title" title="${esc(j.title)}">${esc(j.title)}</div></td>
       <td><div class="job-company" title="${esc(j.company)}">${esc(j.company)}</div></td>
-      <td><div class="loc" title="${esc(j.location)}">${esc(j.location)}</div></td>
-      <td>${tb(j.workType)}</td>
+      <td><div class="loc" title="${esc(j.location)}">${esc(j.location||'—')}</div></td>
       <td><span class="alert-tag">${esc(j.alert||'—')}</span></td>
-      <td>${j.url?`<a class="view-btn" href="${esc(j.url)}" target="_blank">View ↗</a>`:'<span style="color:var(--text3);font-size:12px">—</span>'}</td>
+      <td>${j.url?`<a class="view-btn" href="${esc(j.url)}" target="_blank">View ↗</a>`:'—'}</td>
       <td><button class="dismiss-btn" onclick="dismissJob('${j.id}')">✕</button></td>
     </tr>`).join('');
 }
