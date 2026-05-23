@@ -208,7 +208,13 @@ window.onload = async () => {
     accessToken = localStorage.getItem('goog_token');
   }
   const saved = localStorage.getItem('job_tracker_jobs');
-  if (saved) jobs = JSON.parse(saved);
+  if (saved) {
+    const raw = JSON.parse(saved);
+    // Deduplicate saved jobs by ID (fixes any duplicates from previous refreshes)
+    const seen = new Set();
+    jobs = raw.filter(j => { if(seen.has(j.id)) return false; seen.add(j.id); return true; });
+    if(jobs.length !== raw.length) localStorage.setItem('job_tracker_jobs', JSON.stringify(jobs));
+  }
   const dis = localStorage.getItem('job_tracker_dismissed');
   if (dis) dismissed = new Set(JSON.parse(dis));
   if (accessToken && localStorage.getItem('anthropic_key')) showApp();
@@ -325,11 +331,12 @@ function parseEmail(plainText){
       }
 
       // Location line: "Company · City, Region (WorkType)"
-      // Only look for this after we have a title
-      if(title && !location && l.includes(' · ')){
-        const parts=l.split(' · ');
-        if(parts.length>=2){
-          const locPart=parts.slice(1).join(' · ').trim();
+      // Match any unicode middle-dot separator (·•·etc) between company and location
+      if(title && !location){
+        const sepMatch=l.match(/^[^<\n]+?\s[\u00B7\u2022\u2027\u22C5\u2219\u00b7\|]\s(.+)$/);
+        if(!sepMatch) continue; // no separator found, keep scanning
+        const locPart=sepMatch[1].trim();
+        {
           // Extract work type from parentheses at end
           const wtMatch=locPart.match(/\(([^)]+)\)\s*$/);
           if(wtMatch){
@@ -341,8 +348,8 @@ function parseEmail(plainText){
           } else {
             location=locPart.trim();
           }
+          break;
         }
-        break;
       }
 
       // Stop if we hit the next job block
